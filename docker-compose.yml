@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - keycloak_network
+    volumes:
+      - ./pub-technology/zookeeper/data:/data
+      - ./pub-technology/zookeeper/datalog:/datalog
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: roadmapP@ssword
+    ports:
+      - 5432:5432
+    volumes:
+      - ${PWD}/db-data/:/var/lib/postgresql/data/
+    networks:
+      - keycloak_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: roadmapP@ssword
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_BACKCHANNEL: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+    ports:
+      - "28080:8080"
+    networks:
+      - keycloak_network
+
+networks:
+  keycloak_network:
+    driver: bridge

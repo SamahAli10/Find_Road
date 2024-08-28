@@ -1,0 +1,31 @@
+server:
+  port: 2028
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    zookeeper:
+      connect-string: 147.182.180.167:22181
+      discovery:
+        enabled: true
+        instanceId: ${spring.application.name}:${random.value}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8087/realms/flowable
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+      client:
+        registration:
+          keycloak:
+            client-id: flowable
+            client-secret: buvcFmyIYXkwjdAyXRD5rGA4Ai91MGT3
+            authorization-grant-type: authorization_code
+            scope: openid
+            redirect-uri: http://localhost:2028/login/oauth2/code/keycloak
+            client-authentication-method: client_secret_basic
+        provider:
+          keycloak:
+            issuer-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}
+            jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}
+            user-name-attribute: preferred_username

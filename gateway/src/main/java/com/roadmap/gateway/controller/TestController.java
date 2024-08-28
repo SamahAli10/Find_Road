@@ -12,3 +12,5 @@ public class TestController {
         return "Hello";
     }
 }
+
+// npm install package.json
