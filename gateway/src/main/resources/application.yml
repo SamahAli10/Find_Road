@@ -13,13 +13,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8087/realms/flowable
+          issuer-uri: http://147.182.180.167:28080/realms/master
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
       client:
         registration:
           keycloak:
-            client-id: flowable
-            client-secret: buvcFmyIYXkwjdAyXRD5rGA4Ai91MGT3
+            client-id: roadmap
+            client-secret: MEAlgrg0R2QLRAR8vLJPXzXaoWkuj5Fa
             authorization-grant-type: authorization_code
             scope: openid
             redirect-uri: http://localhost:2028/login/oauth2/code/keycloak
